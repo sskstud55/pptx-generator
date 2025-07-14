@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="chat-window">
+  <div class="messages"></div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="message-input" placeholder="Type your message...">
+    <div class="input-group-append">
+      <button class="btn btn-primary" id="send-button">Send</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
