@@ -1,12 +1,24 @@
-$(document).ready(function() {
-  $('#send-button').click(function() {
-    let message = $('#message-input').val();
+document.addEventListener('DOMContentLoaded', function() {
+  const sendButton = document.getElementById('send-button');
+  const messageInput = document.getElementById('message-input');
+  const messagesContainer = document.querySelector('.messages');
+
+  sendButton.addEventListener('click', function() {
+    const message = messageInput.value;
     if (message.trim() !== '') {
-      $('.messages').append(`<div class="message user-message">${message}</div>`);
-      $('#message-input').val('');
-      // Send message to backend
-      $.post('/chat', {message: message}, function(data) {
-        $('.messages').append(`<div class="message bot-message">${data.response}</div>`);
+      messagesContainer.innerHTML += `<div class="message user-message">${message}</div>`;
+      messageInput.value = '';
+
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `message=${encodeURIComponent(message)}`
+      })
+      .then(response => response.json())
+      .then(.data => {
+        messagesContainer.innerHTML += `<div class="message bot-message">${data.response}</div>`;
       });
     }
   });
